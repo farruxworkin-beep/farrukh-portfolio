@@ -278,7 +278,36 @@ export default function LogviaPage() {
           </div>
           <p className="mt-6 text-[14px] text-p-muted">Every plan includes a 14-day money-back guarantee. Prices in US dollars.</p>
 
-          <div className="mt-14 overflow-x-auto rounded-card bg-p-card p-2">
+          {/* Phones: two short lists instead of a sideways-scrolling table */}
+          <div className="mt-14 grid gap-3 md:hidden">
+            {[
+              { title: "In Free and Pro", rows: compare.filter((r) => r.free), pro: false },
+              { title: "Only in Pro", rows: compare.filter((r) => !r.free), pro: true },
+            ].map((group) => (
+              <div key={group.title} className={`rounded-card p-6 ${group.pro ? "bg-[#161616] text-white" : "bg-p-card"}`}>
+                <p className="flex items-center justify-between gap-3 text-[19px] font-medium tracking-[-0.02em]">
+                  {group.title}
+                  <span className={`rounded-full px-3 py-1 text-[12px] font-medium ${group.pro ? "bg-accent text-white" : "bg-p-card-2 text-p-ink"}`}>
+                    {group.pro ? "Pro" : "Free + Pro"}
+                  </span>
+                </p>
+                <ul className={`mt-4 flex flex-col border-t ${group.pro ? "border-white/10" : "border-p-rule"}`}>
+                  {group.rows.map((row) => (
+                    <li key={row.label} className={`flex items-start gap-3 border-b py-3.5 text-[15px] leading-snug last:border-b-0 ${group.pro ? "border-white/10" : "border-p-rule"}`}>
+                      <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-accent text-white" aria-hidden>
+                        <svg viewBox="0 0 24 24" className="size-3" fill="none" stroke="currentColor" strokeWidth={3.2} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="m5 12 5 5 9-10" />
+                        </svg>
+                      </span>
+                      {row.label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-14 hidden overflow-x-auto rounded-card bg-p-card p-2 md:block">
             <table className="w-full min-w-[620px] border-collapse text-left">
               <caption className="sr-only">Logvia Free and Pro compared</caption>
               <thead>

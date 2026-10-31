@@ -139,9 +139,14 @@ export default function ProductHeader() {
   );
 
   return (
+    <>
     <header
       className={`sticky top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
-        scrolled || menu ? "border-b border-p-rule bg-p-bg/85 backdrop-blur-xl" : "border-b border-transparent"
+        mobile
+          ? "border-b border-p-rule bg-p-bg"
+          : scrolled || menu
+            ? "border-b border-p-rule bg-p-bg/85 backdrop-blur-xl"
+            : "border-b border-transparent"
       }`}
       onPointerLeave={(e) => e.pointerType === "mouse" && closeSoon()}
     >
@@ -297,48 +302,49 @@ export default function ProductHeader() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Phone and tablet menu */}
-      <AnimatePresence>
-        {mobile && (
-          <motion.div
-            key="mobile"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-x-0 top-[72px] bottom-0 z-40 overflow-y-auto border-t border-p-rule bg-p-bg lg:hidden"
-          >
-            <div className="gutter flex flex-col gap-8 py-8">
-              {[
-                { title: "Logvia", items: [["Overview", links.overview], ["Pricing", links.pricing], ["Documentation", links.docs], ["Changelog", links.changelog]] },
-                { title: "More", items: [["Support forum", logvia.support], ["Contact", links.contact], ["Portfolio", links.work]] },
-              ].map((group, gi) => (
-                <div key={group.title}>
-                  <p className="mb-3 text-[13px] font-medium text-p-muted">{group.title}</p>
-                  <ul className="flex flex-col">
-                    {group.items.map(([label, href], i) => (
-                      <motion.li
-                        key={label}
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.04 + (gi * 4 + i) * 0.035, duration: 0.4, ease }}
-                      >
-                        <a href={href} onClick={() => setMobile(false)} className="block border-b border-p-rule py-3 text-[26px] font-medium tracking-[-0.03em]">
-                          {label}
-                        </a>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-              <div className="flex items-center justify-between gap-4">
-                <ProductLang compact />
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
+
+    {/* Phone and tablet menu: outside the header, whose backdrop blur would trap a fixed panel */}
+    <AnimatePresence>
+      {mobile && (
+        <motion.div
+          key="mobile"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="fixed inset-x-0 top-[72px] bottom-0 z-40 overflow-y-auto border-t border-p-rule bg-p-bg lg:hidden"
+        >
+          <div className="gutter flex flex-col gap-8 py-8">
+            {[
+              { title: "Logvia", items: [["Overview", links.overview], ["Pricing", links.pricing], ["Documentation", links.docs], ["Changelog", links.changelog]] },
+              { title: "More", items: [["Support forum", logvia.support], ["Contact", links.contact], ["Portfolio", links.work]] },
+            ].map((group, gi) => (
+              <div key={group.title}>
+                <p className="mb-3 text-[13px] font-medium text-p-muted">{group.title}</p>
+                <ul className="flex flex-col">
+                  {group.items.map(([label, href], i) => (
+                    <motion.li
+                      key={label}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.04 + (gi * 4 + i) * 0.035, duration: 0.4, ease }}
+                    >
+                      <a href={href} onClick={() => setMobile(false)} className="block border-b border-p-rule py-3 text-[26px] font-medium tracking-[-0.03em]">
+                        {label}
+                      </a>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            <div className="flex items-center justify-between gap-4">
+              <ProductLang compact />
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 }
