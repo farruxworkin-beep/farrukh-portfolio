@@ -54,9 +54,9 @@ export const extras = [
 ] as const;
 
 export const plans = [
-  { name: "Personal", sites: "1 website", price: "$49", perks: ["All Pro features", "One year of updates", "Email support"], featured: false },
-  { name: "Business", sites: "5 websites", price: "$99", perks: ["All Pro features", "One year of updates", "Priority email support"], featured: true },
-  { name: "Agency", sites: "Unlimited websites", price: "$199", perks: ["All Pro features", "One year of updates", "Priority email support"], featured: false },
+  { name: "Personal", sites: "1 website", price: "$20", perks: ["All Pro features", "One year of updates", "Email support"], featured: false },
+  { name: "Business", sites: "5 websites", price: "$39", perks: ["All Pro features", "One year of updates", "Priority email support"], featured: true },
+  { name: "Agency", sites: "Unlimited websites", price: "$69", perks: ["All Pro features", "One year of updates", "Priority email support"], featured: false },
 ];
 
 export const compare: { label: string; free: boolean }[] = [
